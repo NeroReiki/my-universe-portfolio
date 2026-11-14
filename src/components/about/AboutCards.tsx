@@ -262,7 +262,7 @@ export default function AboutCards() {
       {/* #endregion */}
 
       {/* #region CARD GRID */}
-      <div className="grid items-start gap-5 md:grid-cols-3">
+      <div className="grid items-stretch gap-5 md:grid-cols-3">
 
         {cards.map((card) => {
           const isActive = activeCard === card.id;

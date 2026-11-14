@@ -449,9 +449,11 @@ export default function NeroChatbot() {
           role="region"
           aria-label="NERO AI Chatbot"
           
+
 className="
-  fixed bottom-24 left-3 right-3
-  z-[9999] flex h-[min(720px,calc(100dvh-120px))]
+  fixed bottom-20 left-3 right-3
+  z-[9999]
+  flex h-[70dvh] max-h-[560px]
   flex-col overflow-hidden
   rounded-[24px]
   border border-cyan-300/35
@@ -463,6 +465,7 @@ className="
   sm:left-auto
   sm:right-6
   sm:h-[min(720px,calc(100dvh-120px))]
+  sm:max-h-none
   sm:w-[min(580px,calc(100vw-48px))]
 "
 

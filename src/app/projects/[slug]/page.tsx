@@ -41,10 +41,23 @@ function ProjectDetailsBackground() {
         disablePictureInPicture
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
       >
-        <source
-          src="/videos/galaxypage3.mp4"
-          type="video/mp4"
-        />
+       {/* #region RESPONSIVE GALAXY VIDEO */}
+
+{/* Mobile - optimized 1.63 MB video */}
+<source
+  src="/videos/galaxypage3-mobile.mp4"
+  type="video/mp4"
+  media="(max-width: 767px)"
+/>
+
+{/* Tablet and Desktop - original HD video */}
+<source
+  src="/videos/galaxypage3.mp4"
+  type="video/mp4"
+/>
+
+{/* #endregion */}
+
       </video>
 
       {/* #endregion */}

@@ -177,10 +177,24 @@ function SkillsBackground() {
           object-cover motion-reduce:hidden
         "
       >
-        <source
-          src="/videos/galaxypage4.mp4"
-          type="video/mp4"
-        />
+
+{/* #region RESPONSIVE GALAXY VIDEO */}
+
+{/* Mobile - optimized 0.41 MB video */}
+<source
+  src="/videos/galaxypage4-mobile.mp4"
+  type="video/mp4"
+  media="(max-width: 767px)"
+/>
+
+{/* Tablet and Desktop - original video */}
+<source
+  src="/videos/galaxypage4.mp4"
+  type="video/mp4"
+/>
+
+{/* #endregion */}
+
       </video>
 
       {/* #endregion */}

@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ========================================
+   SKY & PLANET PORTFOLIO
+   Starfield Animation
+======================================== */
+
+
+/* ========================================
+   COSMIC PORTFOLIO - STAR ANIMATIONS
+======================================== */
+
+@keyframes star-float {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(8px, -12px, 0) scale(1.2);
+  }
+}
+
+.star {
+  opacity: 0.5;
+  animation-name: star-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Accessibility: reduce animation when requested */
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+    opacity: 0.65;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+    opacity: 0.65;
+  }
+}
+
+
+
+/* #region 🪐 PLANET FLOATING ANIMATION */
+
+@keyframes planet-floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.planet-float {
+  animation: planet-floating 9s ease-in-out infinite;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .planet-float {
+    animation: none;
+  }
+}
+
+/* #endregion */
+
+
+/* #region GALAXY PAGE TRANSITION */
+
+@keyframes galaxyPageFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.galaxy-page-enter {
+  animation: galaxyPageFade 450ms ease-out both;
+}
+
+/* Accessibility: reduce animations when requested */
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-page-enter {
+    animation: none;
+  }
+}
+
+/* #endregion */
+
+
+/* #region COSMIC PAGE TRANSITION */
+
+/*
+  Cosmic Zoom:
+  - Slight zoom-in effect
+  - Soft blur disappearing
+  - Smooth upward movement
+  - Gentle opacity transition
+*/
+
+@keyframes cosmicPageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(1.025);
+    filter: blur(6px);
+  }
+
+  60% {
+    opacity: 0.9;
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Override the previous fade animation */
+
+.galaxy-page-enter {
+  animation: cosmicPageEnter 650ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-page-enter {
+    animation: none;
+  }
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region GALAXY FULL-PAGE SLIDE TRANSITION
+   ========================================== */
+
+/*
+  Disable the old fade / Cosmic Zoom animation.
+
+  The View Transitions API now handles the
+  animation between our five main pages.
+*/
+
+.galaxy-page-enter {
+  animation: none !important;
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region SLIDE KEYFRAMES
+   ========================================== */
+
+/* SCROLL DOWN: old page moves upward */
+
+@keyframes galaxySlideOutUp {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+/* SCROLL DOWN: new page enters from below */
+
+@keyframes galaxySlideInUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* SCROLL UP: old page moves downward */
+
+@keyframes galaxySlideOutDown {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* SCROLL UP: previous page enters from above */
+
+@keyframes galaxySlideInDown {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region VIEW TRANSITION SETTINGS
+   ========================================== */
+
+/*
+  Disable automatic snapshot resizing.
+
+  The old and new pages will move together
+  like two full-screen slides.
+*/
+
+html[data-galaxy-slide]::view-transition-group(root) {
+  animation: none;
+}
+
+/*
+  No fading or blending.
+
+  The outgoing and incoming pages remain
+  fully visible during the transition.
+*/
+
+html[data-galaxy-slide]::view-transition-old(root),
+html[data-galaxy-slide]::view-transition-new(root) {
+  opacity: 1;
+  mix-blend-mode: normal;
+
+  animation-duration: 700ms;
+  animation-timing-function:
+    cubic-bezier(0.76, 0, 0.24, 1);
+  animation-fill-mode: both;
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region SCROLL DOWN ANIMATIONS
+   ========================================== */
+
+html[data-galaxy-slide="next"]::view-transition-old(root) {
+  animation-name: galaxySlideOutUp;
+}
+
+html[data-galaxy-slide="next"]::view-transition-new(root) {
+  animation-name: galaxySlideInUp;
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region SCROLL UP ANIMATIONS
+   ========================================== */
+
+html[data-galaxy-slide="previous"]::view-transition-old(root) {
+  animation-name: galaxySlideOutDown;
+}
+
+html[data-galaxy-slide="previous"]::view-transition-new(root) {
+  animation-name: galaxySlideInDown;
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region ACCESSIBILITY
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-galaxy-slide]::view-transition-old(root),
+  html[data-galaxy-slide]::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* #endregion */
+
+
+/* ==========================================
+   #region HIDE ALL SCROLLBARS
+   ========================================== */
+
+/* Prevent unwanted horizontal page overflow */
+
+html {
+  width: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Hide vertical and horizontal scrollbars
+   while allowing normal scrolling */
+
+html,
+body,
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Chrome, Edge, Safari */
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* #endregion */
+
+
+/* #region HIDE MAIN PAGE SCROLLBARS */
+
+/* Main browser scrollbar */
+
+html,
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none;
+}
+
+/* Page containers */
+
+main.galaxy-page-enter {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Edge, Safari */
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+main.galaxy-page-enter::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Prevent horizontal overflow */
+
+html,
+body {
+  overflow-x: clip;
+}
+
+/* #endregion */

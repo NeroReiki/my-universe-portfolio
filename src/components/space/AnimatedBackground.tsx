@@ -14,64 +14,78 @@ export default function AnimatedBackground() {
   // #region SMART VIDEO PLAYBACK
   // ========================================
 
-  useEffect(() => {
-    const video = videoRef.current;
 
-    if (!video) return;
+useEffect(() => {
+  const video = videoRef.current;
 
-    // Respect reduced-motion preferences.
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
+  if (!video) return;
 
-    // Pause or resume playback when appropriate.
-    const syncVideoPlayback = () => {
-      const shouldPlay =
-        !document.hidden && !reducedMotion.matches;
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
 
-      if (!shouldPlay) {
-        video.pause();
-        return;
-      }
+  let isVisible = false;
 
+  const syncVideoPlayback = () => {
+    const shouldPlay =
+      isVisible &&
+      !document.hidden &&
+      !reducedMotion.matches;
+
+    if (shouldPlay) {
       if (video.paused) {
         video.play().catch(() => {
           // Autoplay may be blocked by the browser.
         });
       }
-    };
+    } else {
+      video.pause();
+    }
+  };
 
-    // Set initial playback state.
-    syncVideoPlayback();
+  // Observe when Home is visible on the screen.
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      isVisible = entry.isIntersecting;
+      syncVideoPlayback();
+    },
+    {
+      threshold: 0.01,
+    }
+  );
 
-    // Pause when the tab is hidden and resume
-    // when the visitor returns.
-    document.addEventListener(
+  observer.observe(video);
+
+  // Pause when switching browser tabs.
+  document.addEventListener(
+    "visibilitychange",
+    syncVideoPlayback
+  );
+
+  // Respect reduced-motion preferences.
+  reducedMotion.addEventListener(
+    "change",
+    syncVideoPlayback
+  );
+
+  syncVideoPlayback();
+
+  return () => {
+    observer.disconnect();
+
+    document.removeEventListener(
       "visibilitychange",
       syncVideoPlayback
     );
 
-    // Respond to reduced-motion setting changes.
-    reducedMotion.addEventListener(
+    reducedMotion.removeEventListener(
       "change",
       syncVideoPlayback
     );
 
-    // Cleanup event listeners.
-    return () => {
-      document.removeEventListener(
-        "visibilitychange",
-        syncVideoPlayback
-      );
-
-      reducedMotion.removeEventListener(
-        "change",
-        syncVideoPlayback
-      );
-
-      video.pause();
-    };
-  }, []);
+    video.pause();
+  };
+}, []);
 
   // #endregion
 
@@ -94,7 +108,6 @@ export default function AnimatedBackground() {
 
       <video
         ref={videoRef}
-        autoPlay
         loop
         muted
         playsInline

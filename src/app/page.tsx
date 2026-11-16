@@ -1,22 +1,28 @@
-
+import ProjectsSection from "@/components/projects/ProjectsSection";
 import Link from "next/link";
 import AnimatedBackground from "@/components/space/AnimatedBackground";
+import AboutSection from "@/components/about/AboutSection";
+import SkillsSection from "@/components/skills/SkillsSection";
+import ContactSection from "@/components/contact/ContactSection";
 
 // #region HOME PAGE COMPONENT
 
 export default function HomePage() {
   return (
-    <main className="galaxy-page-enter relative min-h-screen overflow-hidden bg-[#070B1D] text-white">
+    <main className="min-h-screen bg-[#070B1D] text-white">
 
-      {/* #region ANIMATED GALAXY BACKGROUND */}
-      <AnimatedBackground />
-      {/* #endregion */}
+      {/* #region HOME SECTION */}
+      <section
+        id="home"
+        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#070B1D] px-6 py-24"
+      >
 
-      {/* #region MAIN HOMEPAGE CONTENT */}
-      <section className="relative z-10 flex min-h-screen items-center justify-center px-6 py-24">
+        {/* #region HOME GALAXY BACKGROUND */}
+        <AnimatedBackground />
+        {/* #endregion */}
 
         {/* #region INTRODUCTION CONTAINER */}
-        <div className="relative isolate mx-auto w-full max-w-3xl text-center">
+        <div className="relative z-10 isolate mx-auto w-full max-w-3xl text-center">
 
           {/* #region SOFT DARK BACKGROUND */}
           <div
@@ -56,14 +62,14 @@ export default function HomePage() {
           <div className="flex flex-wrap justify-center gap-4">
 
             <Link
-              href="/projects"
+              href="/#projects"
               className="rounded-xl bg-cyan-400 px-7 py-3 font-semibold text-slate-950 shadow-lg shadow-cyan-900/30 transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]"
             >
               Explore My Universe
             </Link>
 
             <Link
-              href="/about"
+              href="/#about"
               className="rounded-xl border border-white/50 bg-[#101A40]/65 px-7 py-3 font-semibold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:bg-[#101A40]/85"
             >
               About Me
@@ -77,6 +83,20 @@ export default function HomePage() {
 
       </section>
       {/* #endregion */}
+
+      {/* #region ABOUT SECTION */}
+      <AboutSection /> 
+      {/* #endregion */}
+      {/* #region PROJECTS SECTION */}
+      <ProjectsSection />
+      {/* #endregion */}
+      {/* #region SKILLS SECTION */}
+      <SkillsSection />
+      {/* #endregion */}
+      {/* #region CONTACT SECTION */}
+      <ContactSection />
+      {/* #endregion */}
+
 
     </main>
   );

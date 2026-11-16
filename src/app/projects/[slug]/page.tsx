@@ -123,7 +123,7 @@ const previewImages = (
         {/* #region BACK NAVIGATION */}
 
         <Link
-          href="/projects"
+          href="/#projects"
           className="mb-10 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-white"
         >
           <span aria-hidden="true">←</span>

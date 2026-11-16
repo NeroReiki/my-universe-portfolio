@@ -4,15 +4,18 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
+// ==========================================
 // #region COMPONENT IMPORTS
+// ==========================================
 
 import Navbar from "@/components/layout/Navbar";
-import ScrollPageNavigation from "@/components/layout/ScrollPageNavigation";
 import NeroChatbot from "@/components/chatbot/NeroChatbot";
 
 // #endregion
 
+// ==========================================
 // #region FONTS
+// ==========================================
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +29,9 @@ const geistMono = Geist_Mono({
 
 // #endregion
 
+// ==========================================
 // #region WEBSITE METADATA
+// ==========================================
 
 export const metadata: Metadata = {
   title: "My Universe | Portfolio",
@@ -36,7 +41,9 @@ export const metadata: Metadata = {
 
 // #endregion
 
+// ==========================================
 // #region ROOT LAYOUT
+// ==========================================
 
 export default function RootLayout({
   children,
@@ -52,25 +59,25 @@ export default function RootLayout({
           antialiased
         `}
       >
+        {/* ================================== */}
         {/* #region NAVIGATION */}
+        {/* ================================== */}
 
         <Navbar />
 
         {/* #endregion */}
 
-        {/* #region AUTOMATIC PAGE NAVIGATION */}
-
-        <ScrollPageNavigation />
-
-        {/* #endregion */}
-
+        {/* ================================== */}
         {/* #region PAGE CONTENT */}
+        {/* ================================== */}
 
         {children}
 
         {/* #endregion */}
 
+        {/* ================================== */}
         {/* #region NERO AI CHATBOT */}
+        {/* ================================== */}
 
         <NeroChatbot />
 

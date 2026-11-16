@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -10,7 +11,9 @@ import {
   type ProjectCategory,
 } from "@/data/projects";
 
-// #region TYPES AND FILTER CATEGORIES
+// ============================================================
+// PROJECT FILTER CATEGORIES
+// ============================================================
 
 type FilterCategory = "All Projects" | ProjectCategory;
 
@@ -23,11 +26,9 @@ const categories: FilterCategory[] = [
   "Web Development",
 ];
 
-
-// #endregion
-
-// #region PROJECTS BACKGROUND
-
+// ============================================================
+// PROJECTS GALAXY BACKGROUND
+// ============================================================
 
 function ProjectsBackground() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -102,18 +103,17 @@ function ProjectsBackground() {
   }, []);
 
   return (
-
-   <div
-  aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#050A1D]"
-  style={{
-    WebkitMaskImage:
-      "linear-gradient(to bottom, transparent 0px, black 160px)",
-    maskImage:
-      "linear-gradient(to bottom, transparent 0px, black 160px)",
-  }}
->
-      {/* #region GALAXY VIDEO */}
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#050A1D]"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0px, black 160px)",
+        maskImage:
+          "linear-gradient(to bottom, transparent 0px, black 160px)",
+      }}
+    >
+      {/* GALAXY VIDEO */}
 
       <video
         ref={videoRef}
@@ -124,61 +124,60 @@ function ProjectsBackground() {
         disablePictureInPicture
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
       >
-        {/* #region RESPONSIVE GALAXY VIDEO */}
+        {/* Mobile video */}
+        <source
+          src="/videos/galaxypage3-mobile.mp4"
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
 
-{/* Mobile - optimized 1.63 MB video */}
-<source
-  src="/videos/galaxypage3-mobile.mp4"
-  type="video/mp4"
-  media="(max-width: 767px)"
-/>
-
-{/* Tablet and Desktop - original HD video */}
-<source
-  src="/videos/galaxypage3.mp4"
-  type="video/mp4"
-/>
-
-{/* #endregion */}
-
+        {/* Desktop video */}
+        <source
+          src="/videos/galaxypage3.mp4"
+          type="video/mp4"
+        />
       </video>
 
-      {/* #endregion */}
-
-      {/* #region VIDEO OVERLAYS */}
+      {/* VIDEO OVERLAYS */}
 
       <div className="absolute inset-0 bg-[#030817]/45" />
 
       <div className="absolute inset-0 bg-gradient-to-b from-[#030817]/20 via-transparent to-[#030817]/85" />
-
-      {/* #endregion */}
     </div>
   );
 }
 
-// #endregion
-
-// #region PROJECT CARD
+// ============================================================
+// PROJECT CARD - SIMPLIFIED DESIGN
+// ============================================================
 
 function ProjectCard({ project }: { project: Project }) {
+  const isBankingPipeline =
+    project.slug === "learning-banking-data-pipeline";
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-cyan-300/20 bg-[#0B1730]/30 shadow-[0_0_25px_rgba(34,211,238,0.08)] backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-cyan-300/70 hover:shadow-[0_0_35px_rgba(34,211,238,0.2)] motion-reduce:transform-none">
 
-      {/* #region PROJECT PREVIEW */}
+      {/* ====================================== */}
+      {/* PROJECT IMAGE */}
+      {/* ====================================== */}
 
       <Link
         href={`/projects/${project.slug}`}
         aria-label={`View details for ${project.title}`}
-        className="relative block h-52 overflow-hidden border-b border-white/10 bg-[#101B38]/60 focus-visible:outline-2 focus-visible:outline-cyan-300"
+        className="relative block aspect-video overflow-hidden border-b border-white/10 bg-[#101B38]/60 focus-visible:outline-2 focus-visible:outline-cyan-300"
       >
-
         {project.image ? (
           <Image
             src={project.image}
-            alt={`${project.title} screenshot`}
+            alt={`${project.title} preview`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={`transition-transform duration-500 group-hover:scale-105 ${
+              isBankingPipeline
+                ? "object-contain"
+                : "object-cover"
+            }`}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-950/60 via-[#111A3C]/60 to-violet-950/60">
@@ -197,8 +196,6 @@ function ProjectCard({ project }: { project: Project }) {
 
                 <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
               </div>
-
-              {/* DECORATIVE CHART */}
 
               <svg
                 viewBox="0 0 300 125"
@@ -248,22 +245,15 @@ function ProjectCard({ project }: { project: Project }) {
             </div>
           </div>
         )}
-
-        {/* PROJECT CATEGORY */}
-
-        <span className="absolute left-4 top-4 rounded-full border border-cyan-300/30 bg-[#07152C]/85 px-3 py-1.5 text-xs font-semibold text-cyan-200 backdrop-blur-md">
-          {project.category}
-        </span>
-
       </Link>
 
-      {/* #endregion */}
+      {/* ====================================== */}
+      {/* PROJECT TITLE */}
+      {/* ====================================== */}
 
-      {/* #region PROJECT INFORMATION */}
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
 
-      <div className="flex flex-1 flex-col p-6">
-
-        <h3 className="mb-3 text-xl font-bold text-white">
+        <h3 className="mb-6 text-xl font-bold leading-snug text-white">
           <Link
             href={`/projects/${project.slug}`}
             className="transition-colors duration-300 hover:text-cyan-300 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-cyan-300"
@@ -272,28 +262,13 @@ function ProjectCard({ project }: { project: Project }) {
           </Link>
         </h3>
 
-        <p className="mb-6 text-sm leading-7 text-slate-300">
-          {project.description}
-        </p>
-
-        {/* #region TECHNOLOGY TAGS */}
-
-        <div className="mb-7 flex flex-wrap gap-2">
-          {project.tools.map((tool) => (
-            <span
-              key={tool}
-              className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-200"
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
-
-        {/* #endregion */}
-
-        {/* #region PROJECT BUTTONS */}
+        {/* ================================== */}
+        {/* PROJECT LINKS */}
+        {/* ================================== */}
 
         <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+
+          {/* VIEW PROJECT */}
 
           <Link
             href={`/projects/${project.slug}`}
@@ -303,43 +278,43 @@ function ProjectCard({ project }: { project: Project }) {
             <span aria-hidden="true">↗</span>
           </Link>
 
+          {/* GITHUB */}
+
           {project.githubUrl && (
             <a
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-violet-300 hover:bg-violet-400/15"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-violet-300 hover:bg-violet-400/15"
             >
-              GitHub ↗
+              GitHub
+              <span aria-hidden="true">↗</span>
             </a>
           )}
+
+          {/* LIVE DEMO */}
 
           {project.demoUrl && (
             <a
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-cyan-300 hover:bg-cyan-400/15"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-cyan-300 hover:bg-cyan-400/15"
             >
-              Live Demo ↗
+              Live Demo
+              <span aria-hidden="true">↗</span>
             </a>
           )}
 
         </div>
-
-        {/* #endregion */}
-
       </div>
-
-      {/* #endregion */}
-
     </article>
   );
 }
 
-// #endregion
-
-// #region PROJECT FILTERS AND GALLERY
+// ============================================================
+// PROJECT FILTERS AND GALLERY
+// ============================================================
 
 function ProjectFilters() {
   const [activeCategory, setActiveCategory] =
@@ -347,7 +322,9 @@ function ProjectFilters() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  // #region FILTER LOGIC
+  // ==========================================================
+  // FILTER LOGIC
+  // ==========================================================
 
   const filteredProjects = useMemo(() => {
     const search = searchQuery.trim().toLowerCase();
@@ -366,8 +343,10 @@ function ProjectFilters() {
         .join(" ")
         .toLowerCase();
 
-      return matchesCategory &&
-        searchableText.includes(search);
+      return (
+        matchesCategory &&
+        searchableText.includes(search)
+      );
     });
   }, [activeCategory, searchQuery]);
 
@@ -376,16 +355,15 @@ function ProjectFilters() {
     setSearchQuery("");
   };
 
-  // #endregion
-
   return (
     <section
       id="project-gallery"
       aria-labelledby="project-gallery-title"
       className="w-full"
     >
-
-      {/* #region GALLERY HEADING */}
+      {/* ====================================== */}
+      {/* GALLERY HEADING */}
+      {/* ====================================== */}
 
       <div className="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
 
@@ -409,7 +387,9 @@ function ProjectFilters() {
           </p>
         </div>
 
+        {/* ================================== */}
         {/* SEARCH BAR */}
+        {/* ================================== */}
 
         <div className="relative w-full md:max-w-xs">
 
@@ -439,28 +419,29 @@ function ProjectFilters() {
           />
 
         </div>
-
       </div>
 
-      {/* #endregion */}
-
-      {/* #region CATEGORY FILTERS */}
+      {/* ====================================== */}
+      {/* CATEGORY FILTERS */}
+      {/* ====================================== */}
 
       <div
         role="group"
         aria-label="Filter projects by category"
         className="mb-7 flex flex-wrap gap-3"
       >
-
         {categories.map((category) => {
-          const isActive = activeCategory === category;
+          const isActive =
+            activeCategory === category;
 
           return (
             <button
               key={category}
               type="button"
               aria-pressed={isActive}
-              onClick={() => setActiveCategory(category)}
+              onClick={() =>
+                setActiveCategory(category)
+              }
               className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${
                 isActive
                   ? "border-cyan-300 bg-cyan-400 text-[#061321] shadow-[0_0_20px_rgba(34,211,238,0.3)]"
@@ -471,12 +452,11 @@ function ProjectFilters() {
             </button>
           );
         })}
-
       </div>
 
-      {/* #endregion */}
-
-      {/* #region PROJECT COUNTER */}
+      {/* ====================================== */}
+      {/* PROJECT COUNTER */}
+      {/* ====================================== */}
 
       <p
         aria-live="polite"
@@ -489,9 +469,9 @@ function ProjectFilters() {
         of {projects.length} projects
       </p>
 
-      {/* #endregion */}
-
-      {/* #region PROJECT GRID */}
+      {/* ====================================== */}
+      {/* PROJECT GRID */}
+      {/* ====================================== */}
 
       {filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 items-stretch gap-7 md:grid-cols-2 xl:grid-cols-3">
@@ -532,35 +512,34 @@ function ProjectFilters() {
 
         </div>
       )}
-
-      {/* #endregion */}
-
     </section>
   );
 }
 
-// #endregion
-
-// #region MAIN PROJECTS PAGE
+// ============================================================
+// MAIN PROJECTS SECTION
+// ============================================================
 
 export default function ProjectsSection() {
   return (
-<section
-  id="projects"
-  className="relative z-20 -mt-40 isolate min-h-screen overflow-hidden bg-transparent text-white"
->
+    <section
+      id="projects"
+      className="relative z-20 -mt-40 isolate min-h-screen overflow-hidden bg-transparent text-white"
+    >
 
-      {/* #region BACKGROUND */}
+      {/* ====================================== */}
+      {/* BACKGROUND */}
+      {/* ====================================== */}
 
       <ProjectsBackground />
 
-      {/* #endregion */}
-
-      {/* #region PAGE CONTENT */}
+      {/* ====================================== */}
+      {/* PAGE CONTENT */}
+      {/* ====================================== */}
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 pb-24 pt-[19rem] sm:px-6 md:px-10">
 
-        {/* #region HERO */}
+        {/* HERO */}
 
         <section className="mb-16">
 
@@ -583,18 +562,11 @@ export default function ProjectsSection() {
 
         </section>
 
-        {/* #endregion */}
-
-        {/* #region PROJECT GALLERY */}
+        {/* PROJECT GALLERY */}
 
         <ProjectFilters />
 
-        {/* #endregion */}
-
       </div>
-
-      {/* #endregion */}
-
     </section>
   );
 }

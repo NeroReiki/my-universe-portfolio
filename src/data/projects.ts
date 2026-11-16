@@ -1,7 +1,10 @@
+
 // #region PROJECT IMPORTS
 
 import { finalYearProject } from "./projects/finalYearProject";
 import { financeDashboardProject } from "./projects/financeDashboard";
+import { bankingDataPipelineProject } from "./projects/bankingDataPipeline";
+import { myUniversePortfolioProject } from "./projects/myUniversePortfolio";
 
 import type { Project } from "./projectTypes";
 
@@ -22,6 +25,8 @@ export type {
 export const projects: Project[] = [
   finalYearProject,
   financeDashboardProject,
+  bankingDataPipelineProject,
+  myUniversePortfolioProject,
 ];
 
 // #endregion

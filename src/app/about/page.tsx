@@ -139,61 +139,6 @@ function ResumeSection() {
 
       {/* #endregion */}
 
-      {/* #region EXPANDABLE PDF PREVIEW */}
-
-      <details
-        data-scroll-nav-ignore
-        className="
-          group rounded-2xl border
-          border-white/15 bg-[#081127]/40
-          p-4 sm:p-5
-        "
-      >
-        <summary
-          className="
-            flex cursor-pointer list-none
-            items-center justify-between
-            gap-3 text-sm font-semibold
-            text-white transition-colors
-            hover:text-cyan-300
-            [&::-webkit-details-marker]:hidden
-          "
-        >
-          <span>📄 Preview My Resume</span>
-
-          <span
-            aria-hidden="true"
-            className="
-              text-xl text-cyan-300
-              transition-transform duration-300
-              group-open:rotate-180
-            "
-          >
-            ▾
-          </span>
-        </summary>
-
-        {/* PDF VIEWER */}
-
-        <div className="mt-5 overflow-hidden rounded-xl border border-white/15 bg-white">
-          <iframe
-            src="/documents/resume.pdf#toolbar=1&navpanes=0"
-            title="My Resume PDF Preview"
-            loading="lazy"
-            className="h-[65vh] min-h-[420px] w-full"
-          />
-        </div>
-
-        {/* MOBILE FALLBACK */}
-
-        <p className="mt-4 text-xs leading-6 text-slate-400">
-          If the PDF preview does not display correctly
-          on your device, use the Open Resume PDF button
-          above.
-        </p>
-      </details>
-
-      {/* #endregion */}
     </section>
   );
 }
